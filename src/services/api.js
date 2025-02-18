@@ -35,3 +35,18 @@ export const getActivityLogs = () =>
 export const logoutUser = () => {
   localStorage.removeItem("access_token");
 };
+
+
+// Update product
+export const updateProduct = async (id, data) => {
+  return await axios.put(`http://localhost:8000/api/products/${id}/`, data, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
+  });
+};
+
+// Delete product
+export const deleteProduct = async (id) => {
+  return await axios.delete(`http://localhost:8000/api/products/${id}/`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
+  });
+};
