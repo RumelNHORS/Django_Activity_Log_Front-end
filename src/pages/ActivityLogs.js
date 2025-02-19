@@ -1,30 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { getActivityLogs } from "../services/api";
-
-// function ActivityLogs() {
-//   const [logs, setLogs] = useState([]);
-
-//   useEffect(() => {
-//     getActivityLogs().then((response) => setLogs(response.data));
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>Activity Logs</h2>
-//       <ul>
-//         {logs.map((log) => (
-//           <li key={log.id}>{log.user} - {log.action} - {log.timestamp}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-// export default ActivityLogs;
-
-
-
-
 import { useEffect, useState } from "react";
 import { getActivityLogs } from "../services/api";
 
@@ -32,8 +5,16 @@ function ActivityLogs() {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
-    getActivityLogs().then((response) => setLogs(response.data));
+    getActivityLogs().then((response) => {
+      setLogs(response.data);
+  
+      // Log the correct action user
+      response.data.forEach((log) => {
+        console.log(`User: ${log.user}, Action: ${log.action}, Product: ${log.product}, Time: ${log.timestamp}`);
+      });
+    });
   }, []);
+  
 
   return (
     <div style={styles.container}>
@@ -42,7 +23,10 @@ function ActivityLogs() {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.header}>User</th>
+              <th style={styles.header}>Log ID</th>
+              <th style={styles.header}> Action User</th>
+              <th style={styles.header}>Product Name</th>
+              <th style={styles.header}>Product Owner</th>
               <th style={styles.header}>Action</th>
               <th style={styles.header}>Timestamp</th>
             </tr>
@@ -50,7 +34,10 @@ function ActivityLogs() {
           <tbody>
             {logs.map((log) => (
               <tr key={log.id}>
+                <td style={styles.cell}>{log.id}</td>
                 <td style={styles.cell}>{log.user}</td>
+                <td style={styles.cell}>{log.product}</td>
+                <td style={styles.cell}>{log.product_owner}</td>
                 <td style={styles.cell}>{log.action}</td>
                 <td style={styles.cell}>{log.timestamp}</td>
               </tr>
@@ -62,6 +49,7 @@ function ActivityLogs() {
   );
 }
 
+// Define styles
 const styles = {
   container: {
     display: "flex",
@@ -102,6 +90,3 @@ const styles = {
 };
 
 export default ActivityLogs;
-
-
-
